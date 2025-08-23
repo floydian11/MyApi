@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Category\" />
+    <Folder Include="Repositories\Order\" />
+    <Folder Include="Repositories\Product\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MyApi.Application\MyApi.Application.csproj" />
+  </ItemGroup>
+
 </Project>
