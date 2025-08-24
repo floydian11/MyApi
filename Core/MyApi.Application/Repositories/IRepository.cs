@@ -11,7 +11,7 @@ namespace MyApi.Application.Repositories
     public interface IRepository<T> where T : BaseEntity
     {
         // --- Sorgulama ---
-        IQueryable<T> GetAll(bool tracking = true);
+        IQueryable<T> GetAll(bool tracking = true); 
         // Tüm verileri getirir. tracking=true ise EF değişiklikleri izler, false ise izleme yapılmaz.
 
         IQueryable<T> GetAllAsNoTracking();
@@ -41,7 +41,7 @@ namespace MyApi.Application.Repositories
         // Birden fazla entity üzerinde değişiklik uygular.
 
         // --- Silme ---
-        void Delete(T entity);
+        Task DeleteAsync(T entity);
         // Entity’yi siler.
 
         void DeleteRange(IEnumerable<T> entities);
