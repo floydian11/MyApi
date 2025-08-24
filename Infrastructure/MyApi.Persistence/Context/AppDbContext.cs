@@ -1,4 +1,5 @@
-﻿using MyApi.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Domain.Entities;
 using MyApi.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;

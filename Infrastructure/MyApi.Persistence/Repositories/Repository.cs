@@ -1,5 +1,7 @@
-﻿using MyApi.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Application.Repositories;
 using MyApi.Domain.Entities.Common;
+using MyApi.Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,10 @@ namespace MyApi.Persistence.Repositories
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly MyApiDbContext _context;
+        private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public Repository(MyApiDbContext context)
+        public Repository(AppDbContext context)
         {
             _context = context;
             // _context.Set<T>() → EF Core'a diyor ki: “Veritabanında T türünde bir tablo var, onu kullan.”
