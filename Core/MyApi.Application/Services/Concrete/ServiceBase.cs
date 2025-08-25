@@ -1,10 +1,11 @@
-﻿using MyApi.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities.Common;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +44,28 @@ namespace MyApi.Application.Services.Concrete
         {
             _repository.Update(entity);
             return Task.CompletedTask; // Update async olmadığı için task tamamlandı olarak döndürüyoruz
+        }
+
+        //ek metotlar
+
+        public async Task<bool> ExistsAsync(Guid id)
+        {
+            return await _repository.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null)
+        {
+            return await _repository.CountAsync(filter);
+        }
+
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> filter)
+        {
+            return await _repository.GetWhere(filter).ToListAsync();
+        }
+
+        public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
+        {
+            return await _repository.FirstOrDefaultAsync(filter);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace MyApi.Application.Services.Abstract
 {
     public interface ICategoryService : IServiceBase<Category>
     {
-        
+        Task<List<Category>> GetActiveCategoriesAsync();
+        Task<Category?> GetCategoryByNameAsync(string name);
     }
 }

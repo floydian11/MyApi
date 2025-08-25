@@ -13,5 +13,7 @@ namespace MyApi.Domain.Entities
 
         // Navigation
         public ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public bool IsActive { get; set; } = true;
     }
 }

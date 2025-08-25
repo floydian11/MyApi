@@ -1,11 +1,7 @@
 ﻿using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyApi.Application.Services.Concrete
 {
@@ -16,6 +12,18 @@ namespace MyApi.Application.Services.Concrete
         {
             _categoryRepository = categoryRepository;
         }
-      
+        public async Task<List<Category>> GetActiveCategoriesAsync()
+        {
+            // IRepository.GetWhere kullanımı
+            return await _repository
+                .GetWhere(c => c.IsActive)
+                .ToListAsync();
+        }
+
+        public async Task<Category?> GetCategoryByNameAsync(string name)
+        {
+            // IRepository.FirstOrDefaultAsync kullanımı
+            return await _repository.FirstOrDefaultAsync(c => c.Name == name);
+        }
     }
 }

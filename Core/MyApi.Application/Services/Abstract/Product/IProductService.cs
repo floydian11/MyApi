@@ -10,6 +10,7 @@ namespace MyApi.Application.Services.Abstract
 {
     public interface IProductService : IServiceBase<Product>
     {
-
+        Task<List<Product>> GetProductsByCategoryIdAsync(Guid categoryId);
+        Task<List<Product>> GetExpensiveProductsAsync(decimal minPrice);
     }
 }
