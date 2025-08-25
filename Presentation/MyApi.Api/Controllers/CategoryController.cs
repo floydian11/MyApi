@@ -34,7 +34,7 @@ namespace MyApi.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Category category)
         {
-            await _categoryService.AddAsync(category);
+            await _categoryService.AddCategoryAsync(category); // Commit burada
             return Ok(category);
         }
 

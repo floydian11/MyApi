@@ -11,5 +11,10 @@ namespace MyApi.Application.Services.Abstract
     {
         Task<List<Category>> GetActiveCategoriesAsync();
         Task<Category?> GetCategoryByNameAsync(string name);
+
+        Task AddCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(Guid id);
+
     }
 }

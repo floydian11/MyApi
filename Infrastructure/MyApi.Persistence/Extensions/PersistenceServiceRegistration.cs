@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Persistence.Repositories;
+using MyApi.Application.Interfaces;
+using MyApi.Application.Repositories;
 using MyApi.Persistence.Context;
+using MyApi.Persistence.Implementations;
+using MyApi.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using MyApi.Application.Repositories;
 
 namespace MyApi.Persistence.Extensions
 {
@@ -29,6 +31,8 @@ namespace MyApi.Persistence.Extensions
             //services.AddScoped<IOrderRepository, OrderRepository>();
             //services.AddScoped<ICategoryRepository, CategoryRepository>();
             //yukarıdai eşleştirmeler yerine aşağıdaki gibi otomatik yapacağız. 
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Reflection ile tüm repository interface ve implementasyonlarını ekle
             var persistenceAssembly = typeof(MyApi.Persistence.Repositories.ProductRepository).Assembly;
