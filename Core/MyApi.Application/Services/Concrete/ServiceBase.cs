@@ -42,6 +42,7 @@ namespace MyApi.Application.Services.Concrete
         public Task UpdateAsync(T entity)
         {
             _repository.Update(entity);
+            return Task.CompletedTask; // Update async olmadığı için task tamamlandı olarak döndürüyoruz
         }
     }
 }

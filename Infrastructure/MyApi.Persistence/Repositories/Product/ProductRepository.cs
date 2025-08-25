@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyApi.Persistence.Repositories
 {
-    public class ProductRepository : Repository<Product>, IProductRepositorty
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         public ProductRepository(AppDbContext context) : base(context)
         {

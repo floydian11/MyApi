@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApi.Application.Repositories
+namespace MyApi.Application.Services.Abstract
 {
-    public interface IProductRepositorty : IRepository<Product>
+    public interface ICategoryService : IServiceBase<Category>
     {
-
+        
     }
 }
