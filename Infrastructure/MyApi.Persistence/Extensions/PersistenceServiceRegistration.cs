@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Application.Repositories;
+using MyApi.Persistence.Repositories;
 using MyApi.Persistence.Context;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MyApi.Application.Repositories;
 
 namespace MyApi.Persistence.Extensions
 {
@@ -30,10 +31,10 @@ namespace MyApi.Persistence.Extensions
             //yukarıdai eşleştirmeler yerine aşağıdaki gibi otomatik yapacağız. 
 
             // Reflection ile tüm repository interface ve implementasyonlarını ekle
-            var assembly = Assembly.GetExecutingAssembly();
+            var persistenceAssembly = typeof(MyApi.Persistence.Repositories.ProductRepository).Assembly;
 
-            var types = assembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository"));
+            var types = persistenceAssembly.GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository") && !t.IsGenericType);
 
             foreach (var implementation in types)
             {

@@ -29,7 +29,11 @@ namespace MyApi.Persistence.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
 
-           // modelBuilder.ApplyConfiguration(new ProductConfiguration()); manuael taanımlama isteseydik buydu. ama yukarıdaki tüm configuration sınıflarımızı bulur ve buraya ekler. 
+            // modelBuilder.ApplyConfiguration(new ProductConfiguration()); manuael taanımlama isteseydik buydu. ama yukarıdaki tüm configuration sınıflarımızı bulur ve buraya ekler. 
+
+            modelBuilder.Entity<OrderItem>()
+       .Property(o => o.Discount)
+       .HasPrecision(18, 2); // precision: toplam basamak, scale: ondalık basamak
         }
 
 

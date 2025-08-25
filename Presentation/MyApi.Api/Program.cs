@@ -1,9 +1,10 @@
 using MyApi.Persistence.Extensions;
+using MyApi.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices(builder.Configuration);
-
+builder.Services.AddApplicationServices();
 // Add services to the container.
 
 builder.Services.AddControllers();
