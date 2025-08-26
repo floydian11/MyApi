@@ -1,4 +1,5 @@
-﻿using MyApi.Application.Repositories;
+﻿using MyApi.Application.Interfaces;
+using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities;
 using System;
@@ -11,10 +12,10 @@ namespace MyApi.Application.Services.Concrete
 {
     public class OrderService : ServiceBase<Order>, IOrderService
     {
-        private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository) : base(orderRepository)
+       
+        public OrderService(IUnitOfWork unitOfWork)
+            : base(unitOfWork.Orders, unitOfWork)
         {
-            _orderRepository = orderRepository;
         }
     }
 }

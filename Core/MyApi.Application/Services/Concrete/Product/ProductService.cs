@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities;
@@ -12,10 +13,10 @@ namespace MyApi.Application.Services.Concrete
 {    
     public class ProductService : ServiceBase<Product>, IProductService
     {
-        private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository) : base(productRepository)
+
+        public ProductService(IUnitOfWork unitOfWork)
+            : base(unitOfWork.Products, unitOfWork)
         {
-            _productRepository = productRepository;
         }
 
         public async Task<List<Product>> GetProductsByCategoryIdAsync(Guid categoryId)

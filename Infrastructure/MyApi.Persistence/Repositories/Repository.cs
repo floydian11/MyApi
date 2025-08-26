@@ -91,10 +91,11 @@ namespace MyApi.Persistence.Repositories
         }
 
         // --- Silme ---
-        public async Task DeleteAsync(T entity)
+        public Task DeleteAsync(T entity)
         {
             // Entity'yi siler. Henüz DB'ye yansımaz.
             _dbSet.Remove(entity);
+            return Task.CompletedTask;
         }
 
         public void DeleteRange(IEnumerable<T> entities)

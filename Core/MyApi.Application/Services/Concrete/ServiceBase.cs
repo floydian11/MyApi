@@ -15,13 +15,16 @@ namespace MyApi.Application.Services.Concrete
     public class ServiceBase<T> : IServiceBase<T> where T : BaseEntity
     {
         protected readonly IRepository<T> _repository;
-        public ServiceBase(IRepository<T> repository)
+        protected readonly IUnitOfWork _unitOfWork;
+        public ServiceBase(IRepository<T> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
         public async Task AddAsync(T entity)
         {
             await _repository.AddAsync(entity);
+            await _unitOfWork.CommitAsync(); // DB’ye yansır
         }
 
         public async Task DeleteAsync(Guid id)
@@ -29,6 +32,7 @@ namespace MyApi.Application.Services.Concrete
             var entity = await _repository.GetByIdAsync(id);
             if (entity != null)
                 await _repository.DeleteAsync(entity);
+            await _unitOfWork.CommitAsync(); // DB’ye yansır
         }
 
         public async Task<List<T>> GetAllAsync()
@@ -41,10 +45,10 @@ namespace MyApi.Application.Services.Concrete
             return await _repository.GetByIdAsync(id);
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _repository.Update(entity);
-            return Task.CompletedTask; // Update async olmadığı için task tamamlandı olarak döndürüyoruz
+            await _unitOfWork.CommitAsync(); // DB’ye yansır
         }
 
         //ek metotlar
