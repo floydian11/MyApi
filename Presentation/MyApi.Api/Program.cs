@@ -1,4 +1,4 @@
-//using MyApi.Persistence.Extensions;
+using MyApi.Persistence.Extensions;
 using MyApi.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
