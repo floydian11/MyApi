@@ -1,4 +1,5 @@
 ﻿using MyApi.Application.DTOs.Category;
+using MyApi.Application.Results;
 using MyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,14 @@ namespace MyApi.Application.Services.Abstract
 {
     public interface ICategoryService : IServiceBase<Category>
     {
-        Task<List<CategoryReadDto>> GetActiveCategoriesAsync();
-        Task<CategoryReadDto?> GetCategoryByNameAsync(string name);
-        Task<CategoryReadDto> AddCategoryAsync(CategoryCreateDto dto);
-        Task<CategoryReadDto> UpdateCategoryAsync(Guid id, CategoryUpdateDto dto);
-        Task DeleteCategoryAsync(Guid id);
-        Task<CategoryReadDto> DeactivateCategoryAsync(Guid id);
-        Task<CategoryReadDto> ActivateCategoryAsync(Guid id);
+        Task<IDataResult<List<CategoryReadDto>>> GetActiveCategoriesAsync();
+        //Task<List<CategoryReadDto>> GetActiveCategoriesAsync(); Result öncesi
+        Task<IDataResult<CategoryReadDto?>> GetCategoryByNameAsync(string name);
+        Task<IDataResult<CategoryReadDto?>> AddCategoryAsync(CategoryCreateDto dto);
+        Task<IDataResult<CategoryReadDto?>> UpdateCategoryAsync(Guid id, CategoryUpdateDto dto);
+        Task<IResult> DeleteCategoryAsync(Guid id);
+        Task<IDataResult<CategoryReadDto?>> DeactivateCategoryAsync(Guid id, bool isAdminAction);
+        Task<IDataResult<CategoryReadDto?>> ActivateCategoryAsync(Guid id);
+        Task<IDataResult<CategoryWithProductsDto?>> GetCategoryByNameWithProductsAsync(string name);
     }
 }

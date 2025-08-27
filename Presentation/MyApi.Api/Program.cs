@@ -1,9 +1,11 @@
-using MyApi.Persistence.Extensions;
+using MyApi.Api.Extensions;
 using MyApi.Application.Extensions;
+using MyApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddApplicationServices();
-builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddPersistenceServices(builder.Configuration); // DbContext ve repository
+builder.Services.AddApplicationServices();                        // Service’ler (repository inject edebilir)
+builder.Services.AddApiValidators();                              // Validator pipeline (controller/service için)
 
 // Add services to the container.
 

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MyApi.Application.DTOs.Category
 {
-    public class CategoryUpdateDto : IDto
+    public class CategoryWithProductsDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
         public bool IsActive { get; set; }
-        public bool IsAdminAction { get; set; } = false; // İş kuralı
+        public List<string> ProductNames { get; set; } = new List<string>();
     }
 }

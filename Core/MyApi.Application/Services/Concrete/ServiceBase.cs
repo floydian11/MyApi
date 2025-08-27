@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
+using MyApi.Application.Results;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities.Common;
 using System;
@@ -21,58 +22,75 @@ namespace MyApi.Application.Services.Concrete
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
-        public async Task AddAsync(T entity)
+
+        public async Task<IResult> AddAsync(T entity)
         {
             await _repository.AddAsync(entity);
-            await _unitOfWork.CommitAsync(); // DB’ye yansır
+            await _unitOfWork.CommitAsync();
+            return new SuccessResult(); // mesaj opsiyonel, üst katmanda verilecek
         }
 
-        public async Task DeleteAsync(Guid id)
+
+        public async Task<IResult> DeleteAsync(T entity)
+        {
+            if (entity == null)
+                return new ErrorResult(); // mesaj üst katmanda verilecek
+
+            await _repository.DeleteAsync(entity);
+            await _unitOfWork.CommitAsync();
+            return new SuccessResult(); // mesaj opsiyonel
+        }
+
+       
+        public async Task<IDataResult<List<T>>> GetAllAsync()
+        {
+            var list = await _repository.GetAll().ToListAsync();
+            return new SuccessDataResult<List<T>>(list);
+        }
+        public async Task<IDataResult<T?>> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            if (entity != null)
-            {
-                await _repository.DeleteAsync(entity);
-                await _unitOfWork.CommitAsync(); // DB’ye yansır
-            }
+            return entity != null
+                ? new SuccessDataResult<T?>(entity)
+                : new ErrorDataResult<T?>(null);
         }
-
-        public async Task<List<T>> GetAllAsync()
+        public async Task<IResult> UpdateAsync(T entity)
         {
-            return await _repository.GetAll().ToListAsync();
-        }
+            if (entity == null)
+                return new ErrorResult(); // mesaj üst katmanda verilecek
 
-        public async Task<T?> GetByIdAsync(Guid id)
-        {
-            return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task UpdateAsync(T entity)
-        {
             _repository.Update(entity);
-            await _unitOfWork.CommitAsync(); // DB’ye yansır
+            await _unitOfWork.CommitAsync();
+            return new SuccessResult(); // mesaj opsiyonel
         }
-
         //ek metotlar
 
-        public async Task<bool> ExistsAsync(Guid id)
+        public async Task<IDataResult<bool>> ExistsAsync(Guid id)
         {
-            return await _repository.AnyAsync(x => x.Id == id);
+            var exists = await _repository.AnyAsync(x => x.Id == id);
+            return new SuccessDataResult<bool>(exists);
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<IDataResult<int>> CountAsync(Expression<Func<T, bool>>? filter = null)
         {
-            return await _repository.CountAsync(filter);
+            var count = await _repository.CountAsync(filter);
+            return new SuccessDataResult<int>(count);
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> filter)
+
+        public async Task<IDataResult<List<T>>> FindAsync(Expression<Func<T, bool>> filter)
         {
-            return await _repository.GetWhere(filter).ToListAsync();
+            var list = await _repository.GetWhere(filter).ToListAsync();
+            return new SuccessDataResult<List<T>>(list);
         }
 
-        public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
+        public async Task<IDataResult<T?>> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
         {
-            return await _repository.FirstOrDefaultAsync(filter);
+            var entity = await _repository.FirstOrDefaultAsync(filter);
+           
+            return entity == null
+                  ? new ErrorDataResult<T?>(null, "Entity bulunamadı.")  // ← null veriyoruz
+                   : new SuccessDataResult<T?>(entity);
         }
     }
 }

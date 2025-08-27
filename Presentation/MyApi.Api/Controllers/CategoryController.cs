@@ -19,12 +19,17 @@ namespace MyApi.Api.Controllers
 
        
         // --- Listeleme ---
-        [HttpGet]
+        [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _categoryService.GetAllAsync();
-            return Ok(categories); // ServiceBase'deki GetAllAsync zaten entity listesi döner
+            var result = await _categoryService.GetAllAsync();
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
+
 
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveCategories()
@@ -44,48 +49,66 @@ namespace MyApi.Api.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> GetByName(string name)
         {
-            var category = await _categoryService.GetCategoryByNameAsync(name);
-            if (category == null) return NotFound();
-            return Ok(category);
+            var result = await _categoryService.GetCategoryByNameWithProductsAsync(name);
+            if (!result.Success)
+                return NotFound(result.Message);
+
+            return Ok(result);
         }
 
         // --- Ekleme ---
+        
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CategoryCreateDto dto)
+        public async Task<IActionResult> Add([FromBody] CategoryCreateDto dto)
         {
-            var created = await _categoryService.AddCategoryAsync(dto);
-            return Ok(created);
+            var result = await _categoryService.AddCategoryAsync(dto);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
-       // --- Güncelleme ---
+        // --- Güncelleme --
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CategoryUpdateDto dto)
         {
-            var updated = await _categoryService.UpdateCategoryAsync(id, dto);
-            return Ok(updated);
+            var result = await _categoryService.UpdateCategoryAsync(id, dto);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
-        
+
         // --- Silme ---
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _categoryService.DeleteCategoryAsync(id);
-            return NoContent();
+            var result = await _categoryService.DeleteCategoryAsync(id);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
         // --- Aktif/Pasif ---
-        [HttpPut("{id}/deactivate")]
-        public async Task<IActionResult> Deactivate(Guid id)
+        [HttpPatch("deactivate/{id}")]
+        public async Task<IActionResult> Deactivate(Guid id, bool isAdminAction)
         {
-            var category = await _categoryService.DeactivateCategoryAsync(id);
-            return Ok(category);
+            var result = await _categoryService.DeactivateCategoryAsync(id, isAdminAction);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
 
-        [HttpPut("{id}/activate")]
+        [HttpPatch("activate/{id}")]
         public async Task<IActionResult> Activate(Guid id)
         {
-            var category = await _categoryService.ActivateCategoryAsync(id);
-            return Ok(category);
+            var result = await _categoryService.ActivateCategoryAsync(id);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
         }
     }
 }

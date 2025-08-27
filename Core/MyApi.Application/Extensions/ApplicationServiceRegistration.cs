@@ -1,11 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.Extensions.DependencyInjection; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
 
 namespace MyApi.Application.Extensions
 {
@@ -20,7 +14,7 @@ namespace MyApi.Application.Extensions
             //services.AddScoped<ICategoryRepository, CategoryRepository>();
             //yukarıdai eşleştirmeler yerine aşağıdaki gibi otomatik yapacağız. 
 
-            // Reflection ile tüm repository interface ve implementasyonlarını ekle
+                // Reflection ile tüm repository interface ve implementasyonlarını ekle
             var applicationAssembly = typeof(MyApi.Application.Services.Concrete.ProductService).Assembly;
 
             var types = applicationAssembly.GetTypes()
