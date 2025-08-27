@@ -31,8 +31,10 @@ namespace MyApi.Application.Services.Concrete
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity != null)
+            {
                 await _repository.DeleteAsync(entity);
-            await _unitOfWork.CommitAsync(); // DB’ye yansır
+                await _unitOfWork.CommitAsync(); // DB’ye yansır
+            }
         }
 
         public async Task<List<T>> GetAllAsync()

@@ -15,5 +15,6 @@ namespace MyApi.Domain.Entities
         public ICollection<Product> Products { get; set; } = new List<Product>();
 
         public bool IsActive { get; set; } = true;
+        public bool IsAdminAction { get; set; } = false;
     }
 }
