@@ -10,10 +10,11 @@ namespace MyApi.Application.Services.Abstract
 {
     public interface IServiceBase<T> where T : class
     {
-        Task<IDataResult<List<T>>> GetAllAsync();
-        Task<IDataResult<T?>> GetByIdAsync(Guid id);
-        Task<IResult> AddAsync(T entity);
-        Task<IResult> UpdateAsync(T entity);
+     
+        Task<IDataResult<List<TDto>>> GetAllAsync<TDto>();
+        Task<IDataResult<TDto>> GetByIdAsync<TDto>(Guid id);
+        Task<IResult> AddAsync<TCreateDto>(TCreateDto dto);
+        Task<IResult> UpdateAsync<TUpdateDto>(TUpdateDto dto);
         Task<IResult> DeleteAsync(T entity);
         //Ek metotlar
         Task<IDataResult<bool>> ExistsAsync(Guid id);

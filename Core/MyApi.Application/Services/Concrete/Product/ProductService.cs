@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
@@ -13,9 +14,9 @@ namespace MyApi.Application.Services.Concrete
 {    
     public class ProductService : ServiceBase<Product>, IProductService
     {
-
-        public ProductService(IUnitOfWork unitOfWork)
-            : base(unitOfWork.Products, unitOfWork)
+        
+        public ProductService(IUnitOfWork unitOfWork,IMapper mapper)
+            : base(unitOfWork.Products, unitOfWork, mapper)
         {
         }
 

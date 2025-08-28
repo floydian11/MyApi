@@ -16,5 +16,8 @@ namespace MyApi.Domain.Entities
 
         public bool IsActive { get; set; } = true;
         public bool IsAdminAction { get; set; } = false;
+
+        
+
     }
 }

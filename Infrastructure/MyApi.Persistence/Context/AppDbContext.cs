@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Application.Exceptions;
 using MyApi.Domain.Entities;
 using MyApi.Domain.Entities.Common;
 using MyApi.Persistence.Configuration;
@@ -36,7 +37,31 @@ namespace MyApi.Persistence.Context
        .HasPrecision(18, 2); // precision: toplam basamak, scale: ondalık basamak
         }
 
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
 
+           
+
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                var utcNow = DateTime.UtcNow;
+
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = utcNow;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedAt = utcNow;
+                        break;
+                    case EntityState.Deleted:
+                        // Hard delete ise hiç bir şey yapma
+                        // Soft delete ise entry.Entity.IsDeleted = true gibi işle
+                        break;
+                }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }
 

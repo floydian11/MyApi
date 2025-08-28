@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyApi.Application.DTOs.Category;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
@@ -10,9 +12,11 @@ namespace MyApi.Application.Services.Concrete
 {
     public class CategoryService : ServiceBase<Category>, ICategoryService
     {
-        public CategoryService(IUnitOfWork unitOfWork)
-            : base(unitOfWork.Categories, unitOfWork)
+        ILogger<CategoryService> _logger;
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CategoryService> logger)
+            : base(unitOfWork.Categories, unitOfWork, mapper)
         {
+            _logger = logger;   
         }
         
         public async Task<IDataResult<List<CategoryReadDto>>> GetActiveCategoriesAsync()

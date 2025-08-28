@@ -22,7 +22,7 @@ namespace MyApi.Api.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _categoryService.GetAllAsync();
+            var result = await _categoryService.GetAllAsync<CategoryReadDto>();
 
             if (!result.Success)
                 return BadRequest(result);
@@ -41,7 +41,7 @@ namespace MyApi.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
+            var category = await _categoryService.GetByIdAsync<CategoryReadDto>(id);
             if (category == null) return NotFound();
             return Ok(category);
         }

@@ -1,4 +1,5 @@
-﻿using MyApi.Application.Interfaces;
+﻿using AutoMapper;
+using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities;
@@ -12,9 +13,9 @@ namespace MyApi.Application.Services.Concrete
 {
     public class OrderService : ServiceBase<Order>, IOrderService
     {
-       
-        public OrderService(IUnitOfWork unitOfWork)
-            : base(unitOfWork.Orders, unitOfWork)
+        
+        public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+            : base(unitOfWork.Orders, unitOfWork, mapper)
         {
         }
     }
