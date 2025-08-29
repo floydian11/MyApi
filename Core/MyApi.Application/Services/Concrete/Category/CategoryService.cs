@@ -26,7 +26,7 @@ namespace MyApi.Application.Services.Concrete
         }
 
         // ✅ ServiceBase kullan - Basit get by id
-        public async Task<IDataResult<CategoryReadDto>> GetCategoryByIdAsync(Guid id)
+        public async Task<IDataResult<CategoryReadDto?>> GetCategoryByIdAsync(Guid id)
         {
             var result = await GetByIdAsync<CategoryReadDto>(id);
             if (!result.Success)
@@ -35,11 +35,13 @@ namespace MyApi.Application.Services.Concrete
             return result;
         }
         // Repository kullan - Özel select projection, performance kritik
+        // Özel: sadece aktif kategoriler
         public async Task<IDataResult<List<CategoryReadDto>>> GetActiveCategoriesAsync()
         {
-            var query = _repository.GetWhere(c => c.IsActive);
+            var query = _repository.GetAll(tracking: false)
+                .Where(c => c.IsActive);
 
-            var dtoList = await query
+            var dtos = await query
                 .Select(c => new CategoryReadDto
                 {
                     Id = c.Id,
@@ -49,9 +51,8 @@ namespace MyApi.Application.Services.Concrete
                 })
                 .ToListAsync();
 
-            return new SuccessDataResult<List<CategoryReadDto>>(dtoList);
+            return new SuccessDataResult<List<CategoryReadDto>>(dtos, "Aktif kategoriler listelendi");
         }
-
 
         // ✅ Repository kullan - Custom business logic var
         public async Task<IDataResult<CategoryReadDto?>> GetCategoryByNameAsync(string name)
@@ -71,8 +72,6 @@ namespace MyApi.Application.Services.Concrete
 
             return new SuccessDataResult<CategoryReadDto>(dto);
         }
-
-        // 3️⃣ Yeni kategori ekleme
 
         // ✅ Repository kullan - Kompleks business rules var
         public async Task<IDataResult<CategoryReadDto?>> AddCategoryAsync(CategoryCreateDto dto)
