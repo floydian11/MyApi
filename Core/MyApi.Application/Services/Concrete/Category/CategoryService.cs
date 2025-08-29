@@ -18,7 +18,23 @@ namespace MyApi.Application.Services.Concrete
         {
             _logger = logger;   
         }
-        
+
+        // ✅ ServiceBase kullan - Basit CRUD, özel logic yok
+        public async Task<IDataResult<List<CategoryReadDto>>> GetAllCategoriesAsync()
+        {
+            return await GetAllAsync<CategoryReadDto>();
+        }
+
+        // ✅ ServiceBase kullan - Basit get by id
+        public async Task<IDataResult<CategoryReadDto>> GetCategoryByIdAsync(Guid id)
+        {
+            var result = await GetByIdAsync<CategoryReadDto>(id);
+            if (!result.Success)
+                return new ErrorDataResult<CategoryReadDto>(default!, "Kategori bulunamadı.");
+
+            return result;
+        }
+        // Repository kullan - Özel select projection, performance kritik
         public async Task<IDataResult<List<CategoryReadDto>>> GetActiveCategoriesAsync()
         {
             var query = _repository.GetWhere(c => c.IsActive);
@@ -36,13 +52,15 @@ namespace MyApi.Application.Services.Concrete
             return new SuccessDataResult<List<CategoryReadDto>>(dtoList);
         }
 
-        
+
+        // ✅ Repository kullan - Custom business logic var
         public async Task<IDataResult<CategoryReadDto?>> GetCategoryByNameAsync(string name)
         {
             var category = await _repository.FirstOrDefaultAsync(c => c.Name == name);
             if (category == null)
                 return new ErrorDataResult<CategoryReadDto?>(null, "Kategori bulunamadı.");
 
+            // Manual mapping çünkü ProductCount hesaplaması var
             var dto = new CategoryReadDto
             {
                 Id = category.Id,
@@ -56,15 +74,16 @@ namespace MyApi.Application.Services.Concrete
 
         // 3️⃣ Yeni kategori ekleme
 
+        // ✅ Repository kullan - Kompleks business rules var
         public async Task<IDataResult<CategoryReadDto?>> AddCategoryAsync(CategoryCreateDto dto)
         {
-            // İş Kural 2: Aynı isimde kategori eklenemez
-            if (await _repository.AnyAsync(c => c.Name == dto.Name))
-                return new ErrorDataResult<CategoryReadDto?>(null, "Kategori bulunamadı.");
-
-            // İş Kural 4: İsim boş olamaz ve max 50 karakter
+            // Business Rule 1: Name validation
             if (string.IsNullOrWhiteSpace(dto.Name) || dto.Name.Length > 50)
                 return new ErrorDataResult<CategoryReadDto?>(null, "Kategori ismi boş olamaz ve 50 karakterden uzun olamaz.");
+
+            // Business Rule 2: Duplicate name check
+            if (await _repository.AnyAsync(c => c.Name == dto.Name))
+                return new ErrorDataResult<CategoryReadDto?>(null, "Bu isimde kategori zaten mevcut.");
 
             var category = new Category
             {
@@ -87,7 +106,7 @@ namespace MyApi.Application.Services.Concrete
             return new SuccessDataResult<CategoryReadDto>(resultDto, "Kategori başarıyla eklendi.");
         }
         // 4️⃣ Kategori güncelleme
-        
+
         public async Task<IDataResult<CategoryReadDto?>> UpdateCategoryAsync(Guid id, CategoryUpdateDto dto)
         {
             var category = await _repository.GetByIdAsync(id);
@@ -96,11 +115,16 @@ namespace MyApi.Application.Services.Concrete
 
             if (!category.IsActive && !dto.IsAdminAction)
                 return new ErrorDataResult<CategoryReadDto?>(null, "Pasif kategoriler sadece admin tarafından güncellenebilir.");
+           
+            // Business Rule: Duplicate name check (exclude current)
+            if (await _repository.AnyAsync(c => c.Name == dto.Name && c.Id != id))
+                return new ErrorDataResult<CategoryReadDto?>(null, "Bu isimde başka kategori zaten mevcut.");
 
             category.Name = dto.Name;
             category.IsActive = dto.IsActive;
 
-            await UpdateAsync(category);
+            _repository.Update(category);
+            await _unitOfWork.CommitAsync();
 
             var resultDto = new CategoryReadDto
             {
@@ -113,7 +137,7 @@ namespace MyApi.Application.Services.Concrete
             return new SuccessDataResult<CategoryReadDto>(resultDto, "Kategori güncellendi.");
         }
         // 5️⃣ Kategori silme
-       
+        // ✅ Repository kullan - Kompleks business rules var
         public async Task<IResult> DeleteCategoryAsync(Guid id)
         {
             var category = await _repository.GetByIdAsync(id);
@@ -127,9 +151,12 @@ namespace MyApi.Application.Services.Concrete
             if (category.IsActive && activeCount <= 1)
                 return new ErrorResult("En az bir kategori her zaman aktif olmalı.");
 
-            await DeleteAsync(category);
+            await _repository.DeleteAsync(category);
+            await _unitOfWork.CommitAsync();
+
             return new SuccessResult("Kategori silindi.");
         }
+        // Deactivate ve Activate metotları aynı kalabilir (business logic var)
         public async Task<IDataResult<CategoryReadDto?>> DeactivateCategoryAsync(Guid id, bool isAdminAction)
         {
             var category = await _repository.GetByIdAsync(id);
@@ -183,6 +210,7 @@ namespace MyApi.Application.Services.Concrete
             return new SuccessDataResult<CategoryReadDto>(dto, "Kategori aktif hale getirildi.");
         }
 
+        // ✅ Repository kullan - Özel select projection
         public async Task<IDataResult<CategoryWithProductsDto?>> GetCategoryByNameWithProductsAsync(string name)
         {
             var category = await _repository.FirstOrDefaultAsync(c => c.Name == name);
