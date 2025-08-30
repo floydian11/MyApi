@@ -9,6 +9,7 @@ namespace MyApi.Application.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-
+        Task<int> CountByCategoryIdAsync(Guid categoryId);
+        Task<List<string>> GetProductNamesByCategoryIdAsync(Guid categoryId);
     }
 }

@@ -23,6 +23,8 @@ namespace MyApi.Persistence.Context
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
+
+       
         //FILE SINIFLARI
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,8 +35,13 @@ namespace MyApi.Persistence.Context
             // modelBuilder.ApplyConfiguration(new ProductConfiguration()); manuael taanımlama isteseydik buydu. ama yukarıdaki tüm configuration sınıflarımızı bulur ve buraya ekler. 
 
             modelBuilder.Entity<OrderItem>()
-       .Property(o => o.Discount)
-       .HasPrecision(18, 2); // precision: toplam basamak, scale: ondalık basamak
+                .Property(o => o.Discount)
+                .HasPrecision(18, 2); // precision: toplam basamak, scale: ondalık basamak
+
+
+
+           
+
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -14,7 +14,7 @@ namespace MyApi.Application.Mapping
         public CategoryProfile()
         {
             CreateMap<Category, CategoryActiveStatusDto>().ReverseMap();
-            CreateMap<Category, CategoryCreateDto>();
+            CreateMap<Category, CategoryCreateDto>().ReverseMap(); 
             CreateMap<Category, CategoryDeleteDto>();
             CreateMap<Category, CategoryUpdateDto>();
             CreateMap<Category, CategoryReadDto>().ReverseMap();            

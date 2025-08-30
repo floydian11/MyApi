@@ -22,9 +22,13 @@ namespace MyApi.Domain.Entities
         public ICollection<ProductDocument> ProductDocuments { get; set; } = new List<ProductDocument>();
 
         // m-n ilişki
-        public ICollection<Category> Categories { get; set; } = new List<Category>();
+       public ICollection<Category> Categories { get; set; } = new List<Category>();
 
         // Tek dosya
         public string? ProductImagePath { get; set; }
+        
+        
+        // Junction tablosu ile ilişki
+        //public ICollection<ProductCategories> ProductCategories { get; set; } = new List<ProductCategories>();
     }
 }

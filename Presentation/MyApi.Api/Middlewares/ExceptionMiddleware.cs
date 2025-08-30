@@ -44,7 +44,8 @@ namespace MyApi.Api.Middlewares
                     UnauthorizedException => ex.Message,
                     NotFoundException => ex.Message,
                     //InternalServerErrorException => ex.Message, buna sınfı eklemedik. 
-                    _ => "Beklenmeyen bir hata oluştu" // runtime hatalar için güvenli mesaj
+                    //_ => "Beklenmeyen bir hata oluştu", // runtime hatalar için güvenli mesaj
+                    _ => ex.Message
                 };
 
                 context.Response.StatusCode = statusCode;

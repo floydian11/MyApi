@@ -21,6 +21,7 @@ namespace MyApi.Application.Services.Concrete
         protected readonly IRepository<T> _repository;
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
+       
         public ServiceBase(IRepository<T> repository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _repository = repository;
