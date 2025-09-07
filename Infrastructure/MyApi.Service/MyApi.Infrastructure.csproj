@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interceptors\**" />
+    <EmbeddedResource Remove="Interceptors\**" />
+    <None Remove="Interceptors\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MyApi.Application\MyApi.Application.csproj" />
+    <ProjectReference Include="..\..\Core\MyApi.Domain\MyApi.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

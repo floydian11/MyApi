@@ -33,6 +33,8 @@ namespace MyApi.Persistence.Extensions
             //yukarıdai eşleştirmeler yerine aşağıdaki gibi otomatik yapacağız. 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // Generic repository
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             // Reflection ile tüm repository interface ve implementasyonlarını ekle
             var persistenceAssembly = typeof(MyApi.Persistence.Repositories.ProductRepository).Assembly;

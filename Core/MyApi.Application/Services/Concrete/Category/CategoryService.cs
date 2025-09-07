@@ -14,11 +14,12 @@ namespace MyApi.Application.Services.Concrete
     {
         ILogger<CategoryService> _logger;
         private readonly IProductRepository _productRepository;
-        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CategoryService> logger, IProductRepository productRepository)
-            : base(unitOfWork.Categories, unitOfWork, mapper)
+        public CategoryService(IRepository<Category> repository, IUnitOfWork unitOfWork, IMapper mapper, ILogger<CategoryService> logger, IProductRepository productRepository)
+            : base(repository, unitOfWork, mapper)
         {
             _logger = logger;
             _productRepository = productRepository;
+           
         }
 
         // ===== Base Service Versiyonu =====

@@ -14,6 +14,7 @@ namespace MyApi.Persistence.Repositories
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly AppDbContext _context;
+        
         private readonly DbSet<T> _dbSet;
 
         public Repository(AppDbContext context)

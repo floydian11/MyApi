@@ -5,6 +5,7 @@ using MyApi.Api.Middlewares;
 using MyApi.Application.Extensions;
 using MyApi.Application.Mapping;
 using MyApi.Persistence.Extensions;
+using MyApi.Infrastructure.Extensions;
 using Serilog;
 using Serilog.Events;
 using System.Runtime.Intrinsics.X86;
@@ -26,17 +27,15 @@ builder.Host.UseSerilog();
 
 // Common infra/application services
 builder.Services.AddHttpContextAccessor();  // audit için gerekli olacak
-
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<CategoryProfile>();
+    cfg.AddProfile<ProductProfile>();
+});
 
-    // diğer profiller...
-});           // mapping profilleri (Application katmanındaki)
-
-builder.Services.AddPersistenceServices(builder.Configuration); // DbContext ve repository
-builder.Services.AddApplicationServices();                        // Service’ler (repository inject edebilir)
-builder.Services.AddApiValidators();                              // Validator pipeline (controller/service için)
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment.WebRootPath);
+builder.Services.AddPersistenceServices(builder.Configuration); builder.Services.AddApiValidators();                              // Validator pipeline (controller/service için)
 
 
 // Add services to the container.
@@ -57,8 +56,7 @@ try
     // app.UseSerilogRequestLogging(); // çok fazla request logu istemiyorsan kapalı bırak
 
     app.UseHttpsRedirection();
-    app.UseStaticFiles();
-
+    app.UseStaticFiles();// default: wwwroot klasörünü açar
     app.UseRouting();
 
     app.UseCors("AllowAll"); // eğer policy tanımlandıysa
@@ -81,7 +79,7 @@ try
 catch (Exception ex)
 {
     // Host başlatılırken kritik hata olursa burada yakala ve Serilog'a bildir
-    Log.Fatal(ex, "Host startıda fatal bir hata oluştu");
+    Log.Fatal(ex, "Host başlatılmasında fatal bir hata oluştu");
     throw;
 }
 finally

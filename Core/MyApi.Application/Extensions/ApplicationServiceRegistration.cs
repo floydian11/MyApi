@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Application.Mapping; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
+using MyApi.Application.Mapping;
+using MyApi.Application.Services.OuterServices.FileStorage; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
 
 namespace MyApi.Application.Extensions
 {
@@ -14,7 +15,9 @@ namespace MyApi.Application.Extensions
             //services.AddScoped<IOrderRepository, OrderRepository>();
             //services.AddScoped<ICategoryRepository, CategoryRepository>();
             //yukarıdai eşleştirmeler yerine aşağıdaki gibi otomatik yapacağız. 
+
             
+
             // Reflection ile tüm repository interface ve implementasyonlarını ekle
             var applicationAssembly = typeof(MyApi.Application.Services.Concrete.ProductService).Assembly;
 

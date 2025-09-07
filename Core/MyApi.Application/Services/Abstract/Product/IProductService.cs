@@ -1,4 +1,6 @@
-﻿using MyApi.Application.Repositories;
+﻿using MyApi.Application.DTOs.Product;
+using MyApi.Application.Repositories;
+using MyApi.Application.Results;
 using MyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,11 @@ namespace MyApi.Application.Services.Abstract
 {
     public interface IProductService : IServiceBase<Product>
     {
-        Task<List<Product>> GetProductsByCategoryIdAsync(Guid categoryId);
-        Task<List<Product>> GetExpensiveProductsAsync(decimal minPrice);
+        Task<IDataResult<List<ProductListDto>>> GetAllProductsAsync();
+        Task<IDataResult<ProductListDto?>> GetProductByIdAsync(Guid id);
+        Task<IDataResult<ProductResponseDto>> AddProductAsync(ProductCreateDto dto);
+        Task<IDataResult<ProductResponseDto?>> UpdateProductAsync(Guid id, ProductUpdateDto dto);
+        Task<IDataResult<List<ProductListDto>>> GetProductsByCategoryIdAsync(Guid categoryId);
+        Task<IDataResult<List<ProductListDto>>> GetExpensiveProductsAsync(decimal minPrice);
     }
 }
