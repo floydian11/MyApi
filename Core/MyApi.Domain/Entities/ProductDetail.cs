@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MyApi.Domain.Entities
 {
-    public class ProductDetail : BaseEntity
+    public class ProductDetail
     {
-        public string Manufacturer { get; set; } = null!;
-        public string? TechnicalSpecs { get; set; }
-        public int WarrantyPeriodInMonths { get; set; }
+        public Guid ProductId { get; set; }   // Hem PK hem FK
 
-        // Foreign key
-        public Guid ProductId { get; set; }
+        public string Manufacturer { get; set; } = null!;
+        public string? TechnicalSpecs { get; set; } = null!;
+        public int WarrantyPeriodInMonths { get; set; }
+        // Navigation
         public Product Product { get; set; } = null!;
     }
 }

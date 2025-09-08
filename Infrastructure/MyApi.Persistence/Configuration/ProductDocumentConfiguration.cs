@@ -20,6 +20,10 @@ namespace MyApi.Persistence.Configuration
             builder.Property(d => d.FilePath)
                    .IsRequired()
                    .HasMaxLength(500);
+            // FileName kolon ayarı
+            builder.Property(d => d.FileName)
+                   .IsRequired()
+                   .HasMaxLength(400);
 
             // 1-n ilişki: Product -> ProductDocuments
             builder.HasOne(d => d.Product)          // Her doküman bir ürüne ait

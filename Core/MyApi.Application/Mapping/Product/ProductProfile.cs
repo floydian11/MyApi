@@ -15,22 +15,47 @@ namespace MyApi.Application.Mapping
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductListDto>().ReverseMap();
-            CreateMap<Product, ProductCategoryDto>().ReverseMap();
-            CreateMap<Product, ProductDetailDto>().ReverseMap();
-            CreateMap<Product, ProductCreateDto>().ReverseMap();
-            CreateMap<Product, ProductDetailInfoDto>().ReverseMap();
-            CreateMap<Product, ProductDocumentDto>().ReverseMap();
-            //CreateMap<Product, ProductResponseDto>().ReverseMap();
-            CreateMap<ProductUpdateDto, Product>()
-                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
-            //srcMember != null ise map et, null ise hiç dokunma.Yani kısmi update için güvenli mapping.
+            // Product -> ProductResponseDto
             CreateMap<Product, ProductResponseDto>()
-     .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id).ToList()))
-     .ForMember(dest => dest.ProductDocuments, opt => opt.MapFrom(src => src.ProductDocuments.Select(d => d.FilePath).ToList()));
+                .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id)))
+                .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.Categories.Select(c => c.Name)))
+                .ForMember(dest => dest.ProductDocuments, opt => opt.MapFrom(src => src.ProductDocuments));
+
+            // Product -> ProductDetailDto
+            CreateMap<Product, ProductDetailDto>()
+                .ForMember(dest => dest.ProductDetail, opt => opt.MapFrom(src => src.ProductDetail))
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories))
+                .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.ProductDocuments));
+            
+            // Nested DTOs
+            CreateMap<ProductDetail, ProductDetailInfoDto>();
+            CreateMap<ProductDocument, ProductDocumentDto>();
+            CreateMap<Category, ProductCategoryDto>();
+
+            CreateMap<Product, ProductListDto>()
+                .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.Categories.Select(c => c.Name)))
+                .ForMember(dest => dest.DocumentPaths, opt => opt.MapFrom(src => src.ProductDocuments.Select(d => d.FilePath)));
 
 
+            CreateMap<ProductCreateDto, Product>()
+               .ForMember(dest => dest.ProductDocuments, opt => opt.Ignore()) // Dosyaları servis içinde manuel handle edeceğiz
+               .ForMember(dest => dest.Categories, opt => opt.Ignore()) // Kategorileri manuel ekleyeceğiz
+               .ForMember(dest => dest.ProductDetail, opt => opt.MapFrom(src => new ProductDetail
+                    {
+                       Manufacturer = src.Manufacturer,
+                       TechnicalSpecs = src.TechnicalSpecs,
+                       WarrantyPeriodInMonths = src.WarrantyPeriodInMonths
+                    }));
 
+            CreateMap<ProductUpdateDto, Product>()
+                .ForMember(dest => dest.ProductDocuments, opt => opt.Ignore()) // Dosyaları servis içinde manuel handle edeceğiz
+                .ForMember(dest => dest.Categories, opt => opt.Ignore()) // Kategorileri manuel ekleyeceğiz
+                .ForMember(dest => dest.ProductDetail, opt => opt.MapFrom(src => new ProductDetail
+                {
+                    Manufacturer = src.Manufacturer ?? string.Empty,
+                    TechnicalSpecs = src.TechnicalSpecs ?? string.Empty,
+                    WarrantyPeriodInMonths = src.WarrantyPeriodInMonths ?? 0
+                }));
 
         }
     }

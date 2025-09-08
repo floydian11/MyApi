@@ -9,6 +9,7 @@ namespace MyApi.Application.DTOs.Product
     public class ProductDocumentDto : IDto
     {
         public Guid Id { get; set; }
-        public string FilePath { get; set; } = null!;
+        public string FilePath { get; set; } = null!; 
+        public string FileName { get; set; } = null!;
     }
 }

@@ -16,9 +16,7 @@ namespace MyApi.Domain.Entities
 
         public bool IsActive { get; set; } = true;
         public bool IsAdminAction { get; set; } = false;
-
-        // Junction tablosu ile ilişki
-       // public ICollection<ProductCategories> ProductCategories { get; set; } = new List<ProductCategories>();
-
     }
+    // Junction tablosu ile ilişki
+     // public ICollection<ProductCategories> ProductCategories { get; set; } = new List<ProductCategories>();
 }

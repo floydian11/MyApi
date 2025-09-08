@@ -10,6 +10,7 @@ namespace MyApi.Domain.Entities
     public class ProductDocument : BaseEntity
     {
         public string FilePath { get; set; } = null!;
+        public string FileName { get; set; } = null!;
 
         // Foreign Key
         public Guid ProductId { get; set; }

@@ -27,8 +27,7 @@ namespace MyApi.Domain.Entities
         // Tek dosya
         public string? ProductImagePath { get; set; }
         
-        
-        // Junction tablosu ile ilişki
-        //public ICollection<ProductCategories> ProductCategories { get; set; } = new List<ProductCategories>();
     }
+    // Junction tablosu ile ilişki
+    //public ICollection<ProductCategories> ProductCategories { get; set; } = new List<ProductCategories>();
 }

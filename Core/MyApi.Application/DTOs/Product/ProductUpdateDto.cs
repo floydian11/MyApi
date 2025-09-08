@@ -4,6 +4,7 @@ namespace MyApi.Application.DTOs.Product
 {
     public class ProductUpdateDto : IDto
     {
+        public Guid Id { get; set; }  // Eklendi
         public string Name { get; set; } = null!; // zorunlu alan
         public string? Description { get; set; }
         public decimal? Price { get; set; } // null olabilir, update sırasında değişmeyebilir

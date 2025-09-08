@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace MyApi.Persistence.Configuration
 {
-    public class ProduıctDetailConfiguration : IEntityTypeConfiguration<ProductDetail>
+    public class ProductDetailConfiguration : IEntityTypeConfiguration<ProductDetail>
     {
         public void Configure(EntityTypeBuilder<ProductDetail> builder)
         {
             // Primary key
-            builder.HasKey(d => d.Id);
+            builder.HasKey(d => d.ProductId); // PK olarak ProductId kullan
 
             // Kolon ayarları
             builder.Property(d => d.Manufacturer)

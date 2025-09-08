@@ -13,5 +13,9 @@ namespace MyApi.Application.DTOs.Product
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public string? ProductImagePath { get; set; }
+
+        // Yeni eklenen alan
+        public List<string> CategoryNames { get; set; } = new();
+        public List<string> DocumentPaths { get; set; } = new();
     }
 }

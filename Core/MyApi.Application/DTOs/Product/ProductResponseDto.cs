@@ -22,11 +22,11 @@ namespace MyApi.Application.DTOs.Product
 
         // Kategori ID’leri
         public List<Guid> CategoryIds { get; set; } = new();
-
+        public List<string> CategoryNames { get; set; } = new();
         // Product Image Path
         public string? ProductImagePath { get; set; }
 
         // Document Paths
-        public List<string> ProductDocuments { get; set; } = new();
+        public List<ProductDocumentDto> ProductDocuments { get; set; } = new();
     }
 }
