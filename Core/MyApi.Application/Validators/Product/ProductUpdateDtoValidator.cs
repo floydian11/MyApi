@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApi.Application.Validators.Product
+namespace MyApi.Application.Validators
 {
     public class ProductUpdateDtoValidator : AbstractValidator<ProductUpdateDto>
     {

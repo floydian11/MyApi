@@ -9,6 +9,7 @@ namespace MyApi.Application.DTOs.Order
     public class OrderItemUpdateDto : IDto
     {
         public Guid Id { get; set; }  // güncellenecek satırın Id’si
+        public Guid ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal? Discount { get; set; }
     }

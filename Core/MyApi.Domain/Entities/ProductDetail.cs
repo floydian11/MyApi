@@ -11,7 +11,7 @@ namespace MyApi.Domain.Entities
     {
         public Guid ProductId { get; set; }   // Hem PK hem FK
 
-        public string Manufacturer { get; set; } = null!;
+        public string? Manufacturer { get; set; } = null!;
         public string? TechnicalSpecs { get; set; } = null!;
         public int WarrantyPeriodInMonths { get; set; }
         // Navigation

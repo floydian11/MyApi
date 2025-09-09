@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApi.Application.Validators.Category
+namespace MyApi.Application.Validators
 {
     public class CategoryActiveStatusDtoValidator : AbstractValidator<CategoryActiveStatusDto>
     {

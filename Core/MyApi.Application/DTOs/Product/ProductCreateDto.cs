@@ -16,7 +16,7 @@ namespace MyApi.Application.DTOs.Product
         public bool IsActive { get; set; }
 
         // ProductDetail bilgileri
-        public string Manufacturer { get; set; } = null!;
+        public string? Manufacturer { get; set; } = null!;
         public string? TechnicalSpecs { get; set; }
         public int WarrantyPeriodInMonths { get; set; }
 

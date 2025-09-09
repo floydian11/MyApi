@@ -27,11 +27,6 @@ builder.Host.UseSerilog();
 
 // Common infra/application services
 builder.Services.AddHttpContextAccessor();  // audit için gerekli olacak
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddProfile<CategoryProfile>();
-    cfg.AddProfile<ProductProfile>();
-});
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment.WebRootPath);

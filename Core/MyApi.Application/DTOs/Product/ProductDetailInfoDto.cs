@@ -8,7 +8,7 @@ namespace MyApi.Application.DTOs.Product
 {
     public class ProductDetailInfoDto : IDto
     {
-        public string Manufacturer { get; set; } = null!;
+        public string? Manufacturer { get; set; } = null!;
         public string? TechnicalSpecs { get; set; }
         public int? WarrantyPeriodInMonths { get; set; }
     }

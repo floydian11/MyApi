@@ -10,9 +10,15 @@ namespace MyApi.Application.DTOs.Order
     {
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
-        public string ProductName { get; set; } = null!; // mapping ile Product’tan alınır
+        public string ProductName { get; set; } = null!;
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; } // mapping ile Product.Price
+        public decimal UnitPrice { get; set; }
         public decimal? Discount { get; set; }
+
+        // Hesaplanan alanlar
+        public decimal Total => Quantity * UnitPrice;
+        public decimal TotalWithDiscount => Discount.HasValue
+                                            ? Total - (Total * Discount.Value / 100)
+                                            : Total;
     }
 }
