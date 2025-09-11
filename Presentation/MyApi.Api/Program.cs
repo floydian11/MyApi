@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MyApi.Api.Extensions;
 using MyApi.Api.Middlewares;
+using MyApi.Api.Seed;
 using MyApi.Application.Extensions;
 using MyApi.Application.Mapping;
-using MyApi.Persistence.Extensions;
+using MyApi.Domain.Entities.Identity;
 using MyApi.Infrastructure.Extensions;
+using MyApi.Persistence.Context;
+using MyApi.Persistence.Extensions;
 using Serilog;
 using Serilog.Events;
 using System.Runtime.Intrinsics.X86;
@@ -32,6 +36,27 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment.WebRootPath);
 builder.Services.AddPersistenceServices(builder.Configuration); builder.Services.AddApiValidators();                              // Validator pipeline (controller/service için)
 
+// 2. Identity servislerini ekle
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    // Password policy
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+
+    // Lockout
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User
+    options.User.RequireUniqueEmail = true;
+
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders(); // Email confirmation / password reset tokenleri için
 
 // Add services to the container.
 
@@ -46,6 +71,14 @@ try
 {
     // 4) Pipeline: Exception middleware en başta olmalı
     app.UseMiddleware<ExceptionMiddleware>();   // bizim özel ExceptionMiddleware
+
+    //SEED DATA
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        await SeedData.Initialize(services);
+    }
 
     // isteğe bağlı: istersen HTTP request loglarını otomatik almak için
     // app.UseSerilogRequestLogging(); // çok fazla request logu istemiyorsan kapalı bırak

@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MyApi.Application.Exceptions;
 using MyApi.Domain.Entities;
 using MyApi.Domain.Entities.Common;
+using MyApi.Domain.Entities.Identity;
 using MyApi.Persistence.Configuration;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace MyApi.Persistence.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+     : base(options)
         {
         }
 
@@ -23,14 +26,13 @@ namespace MyApi.Persistence.Context
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
-
-       
+               
         //FILE SINIFLARI
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); // Identity tabloları ve ilişkileri için gerekli
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly); // kendi entity konfigürasyonların
 
             // modelBuilder.ApplyConfiguration(new ProductConfiguration()); manuael taanımlama isteseydik buydu. ama yukarıdaki tüm configuration sınıflarımızı bulur ve buraya ekler. 
 
@@ -38,17 +40,10 @@ namespace MyApi.Persistence.Context
                 .Property(o => o.Discount)
                 .HasPrecision(18, 2); // precision: toplam basamak, scale: ondalık basamak
 
-
-
-           
-
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-
-           
-
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
                 var utcNow = DateTime.UtcNow;
@@ -67,6 +62,21 @@ namespace MyApi.Persistence.Context
                         break;
                 }
             }
+
+            // AppUser için de aynı mantık
+            foreach (var entry in ChangeTracker.Entries<AppUser>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.UtcNow;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedDate = DateTime.UtcNow;
+                        break;
+                }
+            }
+
             return await base.SaveChangesAsync(cancellationToken);
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyApi.Application.DTOs.Order;
 using MyApi.Application.DTOs.Product;
 using MyApi.Application.Mapping;
+using MyApi.Application.Mapping.Account;
 using MyApi.Application.Services.Concrete;
 using MyApi.Application.Services.OuterServices.FileStorage; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
 using MyApi.Application.Validators;
@@ -44,6 +45,7 @@ namespace MyApi.Application.Extensions
                 cfg.AddProfile<ProductProfile>();
                 cfg.AddProfile<CategoryProfile>();
                 cfg.AddProfile<OrderProfile>();
+                cfg.AddProfile<AccountProfile>();
             });
 
             return services;
