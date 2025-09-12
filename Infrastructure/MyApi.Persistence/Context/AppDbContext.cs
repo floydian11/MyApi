@@ -4,6 +4,7 @@ using MyApi.Application.Exceptions;
 using MyApi.Domain.Entities;
 using MyApi.Domain.Entities.Common;
 using MyApi.Domain.Entities.Identity;
+using MyApi.Domain.Entities.JWT;
 using MyApi.Persistence.Configuration;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,8 @@ namespace MyApi.Persistence.Context
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
-               
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+
         //FILE SINIFLARI
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

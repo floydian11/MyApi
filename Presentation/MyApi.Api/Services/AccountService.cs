@@ -61,7 +61,6 @@ namespace MyApi.Api.Services
                errorMessage: "Login başarısız");
         }
 
-
         public async Task<IDataResult<UserResponseDto?>> RegisterUserAsync(RegisterDto dto)
         {
             return await ServiceExecutor.ExecuteAsync(async () =>
@@ -99,6 +98,12 @@ namespace MyApi.Api.Services
             successMessage: "Kullanıcı başarıyla oluşturuldu.",
             errorMessage: "Kullanıcı oluşturulamadı.");
         }
+
+        public Task<Application.Results.IResult> LogoutAsync()
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }
