@@ -1,1 +1,3 @@
 tree F  project_structure.txt
+
+tree /F /A /L 3 > project_structure.txt
