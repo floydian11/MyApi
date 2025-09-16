@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyApi.Application.DTOs.Category;
+using MyApi.Application.DTOs.ARServices.Category;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Results;

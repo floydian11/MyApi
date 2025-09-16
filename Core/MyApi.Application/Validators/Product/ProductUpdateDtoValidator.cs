@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using MyApi.Application.DTOs.Product;
+using MyApi.Application.DTOs.ARServices.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

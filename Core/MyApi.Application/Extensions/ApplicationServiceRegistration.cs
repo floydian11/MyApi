@@ -1,10 +1,10 @@
 ﻿
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Application.DTOs.Order;
-using MyApi.Application.DTOs.Product;
-using MyApi.Application.Mapping;
-using MyApi.Application.Mapping.Account;
+using MyApi.Application.DTOs.ARServices.Order;
+using MyApi.Application.DTOs.ARServices.Product;
+using MyApi.Application.Mapping.ARServices;
+using MyApi.Application.Mapping.ExternalServices.Account;
 using MyApi.Application.Services.Concrete;
 using MyApi.Application.Services.OuterServices.FileStorage; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
 using MyApi.Application.Validators;

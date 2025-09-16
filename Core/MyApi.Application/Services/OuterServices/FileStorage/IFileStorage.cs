@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MyApi.Application.DTOs.ExternalServices.FileUpload;
 using System;
 using System.Collections.Generic;
 using System.Linq;

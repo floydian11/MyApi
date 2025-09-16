@@ -10,5 +10,6 @@ namespace MyApi.Application.Repositories.JWT
     public interface IRefreshTokenRepository : IRepository<RefreshToken>
     {
         Task<RefreshToken?> GetActiveTokenAsync(Guid userId, string token);
+        Task<RefreshToken?> GetActiveTokenAsync(string token);
     }
 }

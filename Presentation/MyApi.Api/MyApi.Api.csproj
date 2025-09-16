@@ -21,8 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MyApi.Application\MyApi.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MyApi.ExternalServices\MyApi.ExternalServices.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MyApi.Persistence\MyApi.Persistence.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\MyApi.Service\MyApi.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

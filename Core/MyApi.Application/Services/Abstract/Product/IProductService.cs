@@ -1,5 +1,5 @@
-﻿using MyApi.Application.DTOs.Pagination;
-using MyApi.Application.DTOs.Product;
+﻿using MyApi.Application.DTOs.ARServices.Product;
+using MyApi.Application.DTOs.Pagination;
 using MyApi.Application.Repositories;
 using MyApi.Application.Results;
 using MyApi.Domain.Entities;

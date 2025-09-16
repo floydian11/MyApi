@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Application.DTOs.Category;
+using MyApi.Application.DTOs.ARServices.Category;
 using MyApi.Application.Services.Abstract;
 using MyApi.Domain.Entities;
 

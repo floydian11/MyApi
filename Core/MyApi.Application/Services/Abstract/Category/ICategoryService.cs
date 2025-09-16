@@ -1,4 +1,4 @@
-﻿using MyApi.Application.DTOs.Category;
+﻿using MyApi.Application.DTOs.ARServices.Category;
 using MyApi.Application.Results;
 using MyApi.Domain.Entities;
 using System;

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MyApi.Application.DTOs.Category;
+using MyApi.Application.DTOs.ARServices.Category;
 using System;
 using System.Collections.Generic;
 using System.Linq;

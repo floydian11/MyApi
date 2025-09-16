@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using MyApi.Application.DTOs.Category;
+using MyApi.Application.DTOs.ARServices.Product;
+using MyApi.Application.DTOs.ARServices.Category;
 using MyApi.Application.DTOs.Pagination;
-using MyApi.Application.DTOs.Product;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Results;
@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyApi.Application.DTOs.ExternalServices.FileUpload;
 
 namespace MyApi.Application.Services.Concrete
 {    

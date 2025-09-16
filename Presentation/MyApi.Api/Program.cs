@@ -7,7 +7,7 @@ using MyApi.Api.Seed;
 using MyApi.Application.Extensions;
 using MyApi.Application.Mapping;
 using MyApi.Domain.Entities.Identity;
-using MyApi.Infrastructure.Extensions;
+using MyApi.ExternalServices.Extensions;
 using MyApi.Persistence.Context;
 using MyApi.Persistence.Extensions;
 using Serilog;
@@ -35,6 +35,8 @@ builder.Services.AddHttpContextAccessor();  // audit için gerekli olacak
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment.WebRootPath);
 builder.Services.AddPersistenceServices(builder.Configuration); builder.Services.AddApiValidators();                              // Validator pipeline (controller/service için)
+
+builder.Services.AddHttpContextAccessor();
 
 // 2. Identity servislerini ekle
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -91,8 +93,7 @@ try
     app.UseAuthentication();
     app.UseAuthorization();
 
-    //Not: Bu middleware, app.UseRouting() ve app.UseAuthorization() sonrası, ama app.UseEndpoints()(bu artık kullanılmıyor) veya app.MapControllers() öncesine eklenmeli.
-    app.UseMiddleware<ExceptionMiddleware>();
+   
 
     if (app.Environment.IsDevelopment())
     {

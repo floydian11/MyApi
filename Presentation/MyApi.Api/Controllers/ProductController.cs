@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Application.DTOs.ARServices.Product;
 using MyApi.Application.DTOs.Pagination;
-using MyApi.Application.DTOs.Product;
 using MyApi.Application.Services.Abstract;
 
 namespace MyApi.Api.Controllers

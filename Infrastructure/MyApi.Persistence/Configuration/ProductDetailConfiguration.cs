@@ -33,9 +33,9 @@ namespace MyApi.Persistence.Configuration
                    .HasForeignKey<ProductDetail>(d => d.ProductId) // FK dependent tabloda
                    .OnDelete(DeleteBehavior.Cascade);
 
-            // UNIQUE constraint ile 1-1 garanti altına alınır
-            builder.HasIndex(d => d.ProductId)
-                   .IsUnique();
+            // UNIQUE constraint ile 1-1 garanti altına alınır pk, ZATEN UNİQUE GEREK YOK
+            //builder.HasIndex(d => d.ProductId)
+                   //.IsUnique();
         }
     }
 }

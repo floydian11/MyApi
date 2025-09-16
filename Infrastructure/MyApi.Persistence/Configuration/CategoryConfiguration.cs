@@ -19,24 +19,24 @@ namespace MyApi.Persistence.Configuration
                    .IsRequired()
                    .HasMaxLength(200);
 
-            // n-n Category <-> Product
-            builder.HasMany(c => c.Products)
-                   .WithMany(p => p.Categories)
-                   .UsingEntity<Dictionary<string, object>>(
-                        "ProductCategory",
-                        j => j.HasOne<Product>()
-                              .WithMany()
-                              .HasForeignKey("ProductId")
-                              .OnDelete(DeleteBehavior.Cascade),
-                        j => j.HasOne<Category>()
-                              .WithMany()
-                              .HasForeignKey("CategoryId")
-                              .OnDelete(DeleteBehavior.Cascade),
-                        j =>
-                        {
-                            j.HasKey("ProductId", "CategoryId");
-                            j.ToTable("ProductCategories");
-                        });
+            // n-n Category <-> Product PRODUCTTA ZATEN YAPTIK TEKRAR GEREKSİZ
+            //builder.HasMany(c => c.Products)
+            //       .WithMany(p => p.Categories)
+            //       .UsingEntity<Dictionary<string, object>>(
+            //            "ProductCategory",
+            //            j => j.HasOne<Product>()
+            //                  .WithMany()
+            //                  .HasForeignKey("ProductId")
+            //                  .OnDelete(DeleteBehavior.Cascade),
+            //            j => j.HasOne<Category>()
+            //                  .WithMany()
+            //                  .HasForeignKey("CategoryId")
+            //                  .OnDelete(DeleteBehavior.Cascade),
+            //            j =>
+            //            {
+            //                j.HasKey("ProductId", "CategoryId");
+            //                j.ToTable("ProductCategories");
+            //            });
         }
     }
 }

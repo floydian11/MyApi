@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using MyApi.Application.DTOs.Order;
+using MyApi.Application.DTOs.ARServices.Order;
 using MyApi.Application.DTOs.Pagination;
-using MyApi.Application.DTOs.Product;
+using MyApi.Application.DTOs.ARServices.Product;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
 using MyApi.Application.Results;

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyApi.Application.Exceptions;
 using MyApi.Domain.Entities;
@@ -9,16 +11,32 @@ using MyApi.Persistence.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyApi.Persistence.Context
 {
-    public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+
+    
+    //public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    // DbContext'inize, her bir Identity tablosu için HANGİ sınıfı kullanacağını generic parametreler ile tek tek söylüyoruz.
+    public class AppDbContext : IdentityDbContext<
+    AppUser,                  // Kullanıcılar için AppUser sınıfını kullan
+    AppRole,                  // Roller için AppRole sınıfını kullan
+    Guid,                     // Primary Key tipi olarak Guid kullan
+    IdentityUserClaim<Guid>,  // Claim'ler için standart sınıfı kullan
+    AppUserRole,              // Kullanıcı-Rol ilişkisi için özel AppUserRole sınıfını kullan
+    IdentityUserLogin<Guid>,  // Login'ler için standart sınıfı kullan
+    IdentityRoleClaim<Guid>,  // Rol Claim'leri için standart sınıfı kullan
+    IdentityUserToken<Guid>>  // Token'lar için standart sınıfı kullan    
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor)
      : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public DbSet<Product> Products { get; set; } = null!;
@@ -46,7 +64,11 @@ namespace MyApi.Persistence.Context
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            // O anki giriş yapmış kullanıcının ID'sini al. Claim'lerde "sub" veya "nameidentifier" olarak tutulur.
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // IAuditableEntity arayüzünü uygulayan tüm entity'leri yakala.
+            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
             {
                 var utcNow = DateTime.UtcNow;
 
@@ -54,27 +76,11 @@ namespace MyApi.Persistence.Context
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedAt = utcNow;
+                        entry.Entity.CreatedBy = userId; // Kullanıcı ID'sini ekle
                         break;
                     case EntityState.Modified:
                         entry.Entity.UpdatedAt = utcNow;
-                        break;
-                    case EntityState.Deleted:
-                        // Hard delete ise hiç bir şey yapma
-                        // Soft delete ise entry.Entity.IsDeleted = true gibi işle
-                        break;
-                }
-            }
-
-            // AppUser için de aynı mantık
-            foreach (var entry in ChangeTracker.Entries<AppUser>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedDate = DateTime.UtcNow;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.UpdatedDate = DateTime.UtcNow;
+                        entry.Entity.UpdatedBy = userId; // Kullanıcı ID'sini ekle
                         break;
                 }
             }

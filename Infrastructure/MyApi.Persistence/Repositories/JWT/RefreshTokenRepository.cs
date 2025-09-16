@@ -24,5 +24,11 @@ namespace MyApi.Persistence.Repositories.JWT
              .FirstOrDefaultAsync(t => t.UserId == userId && t.Token == token && t.IsActive);
         }
 
+        public async Task<RefreshToken?> GetActiveTokenAsync(string token)
+        {
+            return await _context.RefreshTokens
+             .FirstOrDefaultAsync(t => t.Token == token && t.IsActive);
+        }
+
     }
 }

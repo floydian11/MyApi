@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace MyApi.Domain.Entities.Common
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : IAuditableEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        // set metodu artık private. Sadece nesne oluşturulurken atanabilir.
+        public Guid Id { get; private set; } = Guid.NewGuid();
+        public DateTime CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
