@@ -5,7 +5,6 @@ using MyApi.Application.DTOs.Pagination;
 using MyApi.Application.DTOs.ARServices.Product;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories;
-using MyApi.Application.Results;
 using MyApi.Application.Services.Abstract;
 using MyApi.Application.Utilities;
 using MyApi.Domain.Entities;
@@ -14,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyApi.Application.Results.Eski;
 
 namespace MyApi.Application.Services.Concrete
 {

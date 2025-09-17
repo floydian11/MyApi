@@ -1,5 +1,5 @@
 ﻿using MyApi.Application.DTOs.ExternalServices.Account;
-using MyApi.Application.Results;
+using MyApi.Application.Results.Eski;
 using MyApi.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;

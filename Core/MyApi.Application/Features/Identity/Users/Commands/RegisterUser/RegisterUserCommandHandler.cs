@@ -16,7 +16,9 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
 {
     // IRequestHandler<TCommand, TResponse> arayüzünü uygular.
     // Bu, MediatR'a "Ben RegisterUserCommand'i işlerim ve Result<UserResponseDto> döndürürüm" der.
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IDataResult<UserResponseDto>>
+    //public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IDataResult<UserResponseDto>>
+        // Dönüş tipi artık daha basit ve anlamlı: Result<UserResponseDto>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<UserResponseDto>>
     {
         // Bu Handler'ın SADECE bu iş için ihtiyacı olan bağımlılıkları enjekte ediyoruz.
         private readonly UserManager<AppUser> _userManager;
@@ -30,20 +32,24 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
             _hashService = hashService;
         }
         // MediatR'ın çağıracağı ana metod budur. 'request' parametresi, gönderilen command'in kendisidir.
-        public async Task<IDataResult<UserResponseDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UserResponseDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+            
         {
             // 1. İş Kuralı: Kullanıcı adı daha önce alınmış mı?
             var existingUser = await _userManager.FindByNameAsync(request.Username);
             
             if (existingUser != null)
             {
-                return new ErrorDataResult<UserResponseDto>(null, "Bu kullanıcı adı zaten kullanılıyor.");
+                //return new ErrorDataResult<UserResponseDto>(null, "Bu kullanıcı adı zaten kullanılıyor.");
+                // Artık new ErrorDataResult(...) yerine, merkezi Hata nesnemizi dönüyoruz.
+                return Result.Failure<UserResponseDto>(UserErrors.AlreadyExists);
             }
             // 2. İş Kuralı: E-posta daha önce alınmış mı?
             var existingEmail = await _userManager.FindByEmailAsync(request.Email);
             if (existingEmail != null)
             {
-                return new ErrorDataResult<UserResponseDto>(null, "Bu e-posta adresi zaten kullanılıyor.");
+                //return new ErrorDataResult<UserResponseDto>(null, "Bu e-posta adresi zaten kullanılıyor.");
+                return Result.Failure<UserResponseDto>(UserErrors.EmailInUse);
             }
 
             // 3. Command'den gelen veriyi AppUser entity'sine map'le.
@@ -60,8 +66,10 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
             // 6. Identity'den dönen sonuç başarılı değilse, hatayı dön.
             if (!identityResult.Succeeded)
             {
-                var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
-                return new ErrorDataResult<UserResponseDto>(null, $"Kullanıcı oluşturulamadı: {errors}");
+                //var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
+                //return new ErrorDataResult<UserResponseDto>(null, $"Kullanıcı oluşturulamadı: {errors}");
+                // Identity'den gelen hataları daha genel bir hata ile sarmalayabiliriz.
+                return Result.Failure<UserResponseDto>(UserErrors.CreationFailed);
             }
 
             // 7. Yeni kullanıcıya varsayılan "User" rolünü ata.
@@ -73,7 +81,8 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
             userResponse = userResponse with { Roles = new List<string> { "User" } };
 
             // 9. Her şey başarılı ise, Success Result'ı ve map'lenmiş DTO'yu dön.
-            return new SuccessDataResult<UserResponseDto>(userResponse, "Kullanıcı başarıyla kaydedildi.");
+            // return new SuccessDataResult<UserResponseDto>(userResponse, "Kullanıcı başarıyla kaydedildi.");
+            return Result.Success(userResponse);
         }
     }
 }

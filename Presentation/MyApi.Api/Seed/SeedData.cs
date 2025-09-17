@@ -32,7 +32,7 @@ namespace MyApi.Api.Seed
                     FirstName = "System",
                     LastName = "Admin",
                     IsActive = true,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow
                 };
                 await userManager.CreateAsync(adminUser, "123"); // şifre basit test için
                 await userManager.AddToRoleAsync(adminUser, "admin");

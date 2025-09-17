@@ -1,7 +1,7 @@
 ﻿using MyApi.Application.DTOs.ARServices.Product;
 using MyApi.Application.DTOs.Pagination;
 using MyApi.Application.Repositories;
-using MyApi.Application.Results;
+using MyApi.Application.Results.Eski;
 using MyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;

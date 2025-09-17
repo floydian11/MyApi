@@ -46,8 +46,6 @@
     <Folder Include="Features\Identity\Users\Commands\DeleteUser\" />
     <Folder Include="Features\Identity\Users\Commands\ActivateUser\" />
     <Folder Include="Features\Identity\Users\Commands\DeactivateUser\" />
-    <Folder Include="Features\Identity\Users\Commands\UpdateUser\" />
-    <Folder Include="Features\Identity\Users\Queries\GetUserById\" />
     <Folder Include="Features\Identity\Users\Queries\GetAllUsers\" />
     <Folder Include="Features\Identity\Users\Queries\GetAllUsersForList\" />
   </ItemGroup>

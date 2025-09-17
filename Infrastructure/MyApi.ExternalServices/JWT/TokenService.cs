@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyApi.Application.DTOs.ExternalServices.Account;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories.JWT;
-using MyApi.Application.Results;
+using MyApi.Application.Results.Eski;
 using MyApi.Application.Services.OuterServices.Identity.JWT;
 using MyApi.Domain.Entities.Identity;
 using MyApi.Domain.Entities.JWT;

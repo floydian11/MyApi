@@ -20,5 +20,6 @@ namespace MyApi.Application.Features.Identity.Users.DTOs
         // Koleksiyonları da 'init' ile tanımlayabiliriz.
         // Constructor'da boş bir liste ile başlatmak, 'NullReferenceException' hatalarını önler.
         public IEnumerable<string> Roles { get; init; } = new List<string>();
+        public IEnumerable<ClaimDto> Claims { get; init; } = new List<ClaimDto>();
     }
 }

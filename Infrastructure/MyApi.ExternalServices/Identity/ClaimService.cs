@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MyApi.Application.DTOs.ExternalServices.Identity;
-using MyApi.Application.Results;
+
+using MyApi.Application.Results.Eski;
 using MyApi.Application.Services.OuterServices.Identity;
 using MyApi.Domain.Entities.Identity;
 using System;

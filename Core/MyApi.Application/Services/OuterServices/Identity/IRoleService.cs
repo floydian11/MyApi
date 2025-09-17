@@ -1,4 +1,4 @@
-﻿using MyApi.Application.Results;
+﻿using MyApi.Application.Results.Eski;
 using System;
 using System.Collections.Generic;
 using System.Linq;

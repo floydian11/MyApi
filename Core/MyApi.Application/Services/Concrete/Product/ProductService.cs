@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyApi.Application.DTOs.ExternalServices.FileUpload;
+using MyApi.Application.Results.Eski;
 
 namespace MyApi.Application.Services.Concrete
 {    

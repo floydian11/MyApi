@@ -13,5 +13,5 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
         string Password,
         string FirstName,
         string LastName,
-        string TCKN) : IRequest<IDataResult<UserResponseDto>>;
+        string TCKN) : IRequest<Result<UserResponseDto>>;
 }

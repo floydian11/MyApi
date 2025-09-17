@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using MyApi.Application.DTOs.ExternalServices.Account;
 using MyApi.Application.DTOs.ExternalServices.Identity;
 using MyApi.Application.Results;
+using MyApi.Application.Results.Eski;
 using MyApi.Application.Services.OuterServices.Identity;
 using MyApi.Application.Services.OuterServices.Identity.Hash;
 using MyApi.Application.Services.OuterServices.Identity.JWT;

@@ -18,7 +18,7 @@ namespace MyApi.Application.Mapping.ExternalServices.Account
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()) // Password Identity tarafından yönetiliyor
                 .ForMember(dest => dest.TCKNHash, opt => opt.Ignore())    // Hash servis ile set edilecek
                 .ForMember(dest => dest.TCKNSalt, opt => opt.Ignore())    // Hash servis ile set edilecek
-                .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.Ignore());
 
             // AppUser -> UserResponseDto

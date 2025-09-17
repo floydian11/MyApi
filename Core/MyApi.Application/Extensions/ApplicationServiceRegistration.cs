@@ -1,13 +1,10 @@
 ﻿
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Application.DTOs.ARServices.Order;
-using MyApi.Application.DTOs.ARServices.Product;
-using MyApi.Application.Mapping.ARServices;
-using MyApi.Application.Mapping.ExternalServices.Account;
+using MyApi.Application.Common;
+using MyApi.Application.Features.Identity.Users;
 using MyApi.Application.Services.Concrete;
-using MyApi.Application.Services.OuterServices.FileStorage; // AddValidatorsFromAssemblyContaining için yeterliusing Microsoft.Extensions.DependencyInjection;
-using MyApi.Application.Validators;
 using System.Reflection;
 namespace MyApi.Application.Extensions
 {
@@ -16,6 +13,16 @@ namespace MyApi.Application.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             var applicationAssembly = typeof(ProductService).Assembly;
+
+
+            // AutoMapper'ı en temel ve açık haliyle kaydediyoruz.
+            services.AddAutoMapper(cfg =>
+            {
+                // AutoMapper konfigürasyonuna (cfg), Application katmanındaki
+                // Assembly'yi tarayıp içindeki tüm Profile'ları bulmasını söylüyoruz.
+                // typeof(UserProfile).Assembly, Application projesini referans almanın en güvenli yoludur.
+                cfg.AddMaps(typeof(UserProfile).Assembly);
+            });
 
             // MediatR'ı Application katmanındaki tüm Handler'ları ve diğer bileşenleri
             // bulacak şekilde otomatik olarak kaydet.
@@ -39,8 +46,18 @@ namespace MyApi.Application.Extensions
             // -----------------------------
             // 2️⃣ Validator’ları register et
             // -----------------------------
+            // BU SATIRI KONTROL ET:
+            // Bu satır, MediatR'a "tüm istekleri önce benim ValidationBehavior'ımdan geçir"
+            // diyen satırdır. Eğer bu satır eksikse, validasyon pipeline'ı hiç çalışmaz.
 
+            // 1. ADIM: Tüm validator'ları sisteme tanıtır.
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // 2. ADIM: MediatR'a, bu validator'ları çalıştıracak olan ValidationBehavior'ı kullanmasını söyler.
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+
+
 
             //services.AddTransient<IValidator<ProductCreateDto>, ProductCreateDtoValidator>();
             //services.AddTransient<IValidator<ProductUpdateDto>, ProductUpdateDtoValidator>();
@@ -50,13 +67,13 @@ namespace MyApi.Application.Extensions
             // -----------------------------
             // 3️⃣ AutoMapper profillerini ekle
             // -----------------------------
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.AddProfile<ProductProfile>();
-                cfg.AddProfile<CategoryProfile>();
-                cfg.AddProfile<OrderProfile>();
-                cfg.AddProfile<AccountProfile>();
-            });
+            //services.AddAutoMapper(cfg =>
+            //{
+            //    cfg.AddProfile<ProductProfile>();
+            //    cfg.AddProfile<CategoryProfile>();
+            //    cfg.AddProfile<OrderProfile>();
+            //    cfg.AddProfile<AccountProfile>();
+            //});
 
             return services;
         }

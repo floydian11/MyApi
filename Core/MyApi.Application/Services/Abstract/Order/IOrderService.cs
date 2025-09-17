@@ -1,6 +1,6 @@
 ﻿using MyApi.Application.DTOs.ARServices.Order;
 using MyApi.Application.DTOs.Pagination;
-using MyApi.Application.Results;
+using MyApi.Application.Results.Eski;
 using MyApi.Application.Services.Concrete;
 using MyApi.Domain.Entities;
 using System;

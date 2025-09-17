@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
+namespace MyApi.Application.Features.Identity.Users.Commands.UpdateUser
 {
-    // AbstractValidator<T>'den miras alır ve hangi komutu doğrulayacağını belirtir.
-    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+    public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
-        // Doğrulama kuralları constructor içinde tanımlanır.
-        public RegisterUserCommandValidator()
+        public UpdateUserCommandValidator() 
         {
             // Username alanı boş olamaz ve maksimum 50 karakter olabilir.
             RuleFor(x => x.Username)
@@ -25,14 +23,7 @@ namespace MyApi.Application.Features.Identity.Users.Commands.RegisterUser
                // kendi özel Regex'imiz ile kontrol ediyoruz.
                .Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")
                .WithMessage("Lütfen 'isim@alanadı.uzantı' formatında geçerli bir e-posta adresi girin.");
-            //identity ayarları ile uyumlu olmalı. burada bu kontrolü yaparak servera gitmeden hatayı yakalamış oluyoruz.
-            RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Şifre boş olamaz.")
-                .MinimumLength(8).WithMessage("Şifre en az 8 karakter olmalıdır.")
-                .Matches("[A-Z]").WithMessage("Şifre en az bir büyük harf içermelidir.")
-                .Matches("[a-z]").WithMessage("Şifre en az bir küçük harf içermelidir.")
-                .Matches("[0-9]").WithMessage("Şifre en az bir rakam içermelidir.")
-                .Matches("[^a-zA-Z0-9]").WithMessage("Şifre en az bir özel karakter (örn: !?*.) içermelidir.");
+           
 
             // Diğer alanlar için de kurallar eklenebilir...
             RuleFor(x => x.FirstName).NotEmpty();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyApi.Application.Results
+namespace MyApi.Application.Results.Eski
 {
     public interface IResult
     {
