@@ -46,7 +46,7 @@ namespace MyApi.Persistence.Context
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
-
+        public DbSet<ClaimTemplate> ClaimTemplates { get; set; } = null!;
         //FILE SINIFLARI
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

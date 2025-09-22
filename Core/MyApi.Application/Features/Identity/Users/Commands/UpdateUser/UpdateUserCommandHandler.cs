@@ -83,10 +83,12 @@ namespace MyApi.Application.Features.Identity.Users.Commands.UpdateUser
             //var userClaims = await claimsTask;
             //YUKARIDAKİ YAPIYI MERKEZİLEŞTİRDİK ARTIK AŞAĞIDAKİ SERVİSTEN ÇAĞIRIYORUZ.
             // Tekrar eden kod bloğu yerine, tek satırlık servis çağrısı!
-            var rolesAndClaims = await _userRoleClaimService.GetRolesAndClaimsAsync(user);
+           
 
             // b. AutoMapper ile temel DTO'yu oluştur.
             var userDto = _mapper.Map<UserResponseDto>(user);
+
+            var rolesAndClaims = await _userRoleClaimService.GetRolesAndClaimsAsync(user);
 
             // c. 'with' ifadesiyle DTO'yu roller ve claim'lerle zenginleştir.
             userDto = userDto with

@@ -33,5 +33,35 @@ namespace MyApi.Application.Features.Identity.Users
             "User.UpdateFailed",
             "Kullanıcı bilgileri güncellenemedi.",
             ErrorType.Failure);
+
+        public static readonly Error DeletionFailed = new(
+            "User.DeletionFailed",
+            "Kullanıcı silinirken bir hata oluştu.",
+            ErrorType.Failure);
+
+        public static readonly Error StatusChangeFailed = new(
+           "User.StatusChangeFailed",
+           "Kullanıcı durumu değiştirilirken bir hata oluştu.",
+           ErrorType.Failure);
+
+        public static readonly Error ListingFailed = new(
+         "User.ListingFailed",
+         "Kullanıcılar listelenirken bir hata oluştu.",
+         ErrorType.Failure);
+
+        public static readonly Error LoginFailed = new(
+        "User.LoginFailed",
+        "Kullanıcı adı ya da şifre hatalı.",
+        ErrorType.Failure);
+
+        public static readonly Error InvalidCredentials = new(
+        "User.InvalidCredentials",
+        "Kullanıcı adı ya da şifre hatalı.",
+        ErrorType.Failure);
+
+        public static readonly Error AccountNotActive = new(
+       "User.AccountNotActive",
+       "Kullanıcı hesabı aktif değil.",
+       ErrorType.Failure);
     }
 }

@@ -24,7 +24,8 @@ namespace MyApi.Persistence.Extensions
 
             // DbContext ekle
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString),
+                ServiceLifetime.Scoped);
 
             // Repository eşleştirmeleri
             //services.AddScoped<IProductRepositorty, ProductRepository>();

@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace MyApi.Application.Features.Identity.Users.Queries.GetUserById
 {
-    public record GetUSerByIdQuery(Guid Id) : IRequest<Result<UserResponseDto>>;
+    public record GetUserByIdQuery(Guid Id) : IRequest<Result<UserResponseDto>>;
 }

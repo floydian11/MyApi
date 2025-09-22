@@ -12,6 +12,8 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.18">
@@ -34,20 +36,7 @@
     <Folder Include="Features\Domain\Products\Commands\" />
     <Folder Include="Features\Domain\Products\DTOs\" />
     <Folder Include="Features\Domain\Products\Queries\" />
-    <Folder Include="Features\Identity\Authentication\Commands\" />
     <Folder Include="Features\Identity\Authentication\DTOs\" />
-    <Folder Include="Features\Identity\Authentication\Queries\" />
-    <Folder Include="Features\Identity\Claims\Commands\" />
-    <Folder Include="Features\Identity\Claims\DTOs\" />
-    <Folder Include="Features\Identity\Claims\Queries\" />
-    <Folder Include="Features\Identity\Roles\Commands\" />
-    <Folder Include="Features\Identity\Roles\DTOs\" />
-    <Folder Include="Features\Identity\Roles\Queries\" />
-    <Folder Include="Features\Identity\Users\Commands\DeleteUser\" />
-    <Folder Include="Features\Identity\Users\Commands\ActivateUser\" />
-    <Folder Include="Features\Identity\Users\Commands\DeactivateUser\" />
-    <Folder Include="Features\Identity\Users\Queries\GetAllUsers\" />
-    <Folder Include="Features\Identity\Users\Queries\GetAllUsersForList\" />
   </ItemGroup>
 
 </Project>

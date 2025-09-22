@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MyApi.Application.DTOs.ExternalServices.Account;
+using MyApi.Application.Features.Identity.Users.DTOs;
+
+//using MyApi.Application.DTOs.ExternalServices.Account;
 using MyApi.Application.Interfaces;
 using MyApi.Application.Repositories.JWT;
 using MyApi.Application.Results.Eski;
@@ -53,6 +55,10 @@ namespace MyApi.ExternalServices.JWT
                 new Claim(ClaimTypes.Email, user.Email!),               // Standart: E-posta
                 new Claim(ClaimTypes.GivenName, user.FirstName!),       // Standart: Ad
                  new Claim(ClaimTypes.Surname, user.LastName!),         // Standart: Soyad
+
+    //             new Claim(ClaimTypes.Email, user.Personnel.Email!), PERSONEL TABLOSU EKLEYİNCE BÖYLE ALACAĞIZ BU BİLGİLERİ
+    //new Claim(ClaimTypes.GivenName, user.Personnel.FirstName!),
+    //new Claim(ClaimTypes.Surname, user.Personnel.LastName!),
             };
 
             // Parametre olarak gelen rolleri ve claim'leri de token'a ekliyoruz.

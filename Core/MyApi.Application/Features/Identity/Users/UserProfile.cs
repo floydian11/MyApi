@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MyApi.Application.Features.Identity.Users.Commands.RegisterUser;
+using MyApi.Application.Features.Identity.Users.Commands.UpdateUser;
 using MyApi.Application.Features.Identity.Users.DTOs;
 using MyApi.Domain.Entities.Identity;
 using System;
@@ -27,6 +28,12 @@ namespace MyApi.Application.Features.Identity.Users
             CreateMap<AppUser, UserResponseDto>()
                 .ForMember(dest => dest.Roles, opt => opt.Ignore())
                 .ForMember(dest => dest.Claims, opt => opt.Ignore());// Rolleri ve claimleri manuel dolduruyoruz.
+
+            CreateMap<UpdateUserDto, UpdateUserCommand>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore()); //id'yi manuel set ediyoruz.
+
+            CreateMap<AppUser, UserListDto>();
+
         }
     }
 }

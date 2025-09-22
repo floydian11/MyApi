@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace MyApi.Application.Features.Identity.Users.DTOs
 {
-    public class UpdateUserDto
+    public record UpdateUserDto
     {
-        public string? Username { get; set; }
-        public string? Email { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? TCKN { get; set; }  // Opsiyonel, hash servisi ile işlenecek
-        public bool? IsActive { get; set; } // Opsiyonel, admin update için
+        public string Username { get; init; } = string.Empty;
+        public string? Email { get; init; } = string.Empty;
+        public string? FirstName { get; init; } = string.Empty;
+        public string? LastName { get; init; } = string.Empty;
+        public string? TCKN { get; init; } = string.Empty;  // Opsiyonel, hash servisi ile işlenecek
+        public bool? IsActive { get; init; } = false; // Opsiyonel, admin update için
+
     }
 }

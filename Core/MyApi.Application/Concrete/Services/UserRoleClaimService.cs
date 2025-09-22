@@ -24,15 +24,18 @@ namespace MyApi.Application.Concrete.Services
 
         public async Task<UserRolesAndClaimsDto> GetRolesAndClaimsAsync(AppUser user)
         {
-            var rolesTask = _userManager.GetRolesAsync(user);
-            var claimsTask = _userManager.GetClaimsAsync(user);
+            // 1. Önce rolleri al ve bu işlemin 'await' ile TAMAMEN BİTMESİNİ BEKLE.
+            var roles = await _userManager.GetRolesAsync(user);
 
-            await Task.WhenAll(rolesTask, claimsTask);
+            // 2. Roller işlemi bittikten sonra, GÜVENLE claim'leri al
+            //    ve bu işlemin de 'await' ile bitmesini bekle.
+            var claims = await _userManager.GetClaimsAsync(user);
 
+            // 3. Artık her iki veri de elimizde olduğuna göre, DTO'yu oluşturup dön.
             return new UserRolesAndClaimsDto
             {
-                Roles = await rolesTask,
-                Claims = await claimsTask
+                Roles = roles,
+                Claims = claims
             };
         }
     }
